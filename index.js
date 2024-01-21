@@ -3,13 +3,14 @@
  */
 
 import {createContext, useEffect, useRef} from 'react';
-import {AppRegistry, View} from 'react-native';
+import {AppRegistry, StatusBar, View} from 'react-native';
 import App from './App';
 import {name as appName} from './app.json';
 import {useStore} from './useStore';
 import Stacks from './PageStacks';
 
 const StoreContext = createContext();
+
 const Application = () => {
   useEffect(() => {
     return function () {};
@@ -18,6 +19,7 @@ const Application = () => {
   return (
     <StoreContext.Provider value={useStore}>
       <View style={{flex: 1}}>
+        <StatusBar translucent={true}/>
         <Stacks />
       </View>
     </StoreContext.Provider>

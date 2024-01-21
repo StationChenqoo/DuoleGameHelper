@@ -20,10 +20,17 @@ export type RootStacksProp = NativeStackNavigationProp<RootStacksParams>;
 export default function Stacks() {
   return (
     <NavigationContainer>
-      <RootStack.Navigator
-        screenOptions={{animation: 'slide_from_right', headerShown: false}}>
-        <RootStack.Screen name="App" component={App} />
-        <RootStack.Screen name="BaohuangWeifang" component={BaohuangWeifang} />
+      <RootStack.Navigator screenOptions={{animation: 'slide_from_right'}}>
+        <RootStack.Screen
+          name="App"
+          component={App}
+          options={{headerTitle: '多乐棋牌助手'}}
+        />
+        <RootStack.Screen
+          name="BaohuangWeifang"
+          component={BaohuangWeifang}
+          options={{headerTitle: '潍坊保皇'}}
+        />
       </RootStack.Navigator>
     </NavigationContainer>
   );

@@ -5,13 +5,16 @@
  * @format
  */
 
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import {
   Image,
+  ImageRequireSource,
+  ImageURISource,
   SafeAreaView,
   ScrollView,
   StatusBar,
   StyleSheet,
+  Text,
   TouchableOpacity,
   useColorScheme,
   View,
@@ -20,71 +23,86 @@ import {
 import {Colors} from 'react-native/Libraries/NewAppScreen';
 import {useStore} from './useStore';
 import {RootStacksProp} from './PageStacks';
+import {useSafeAreaInsets} from 'react-native-safe-area-context';
+import {Game} from '@src/constants/MyTypes';
 
 interface MyProps {
   navigation?: RootStacksProp;
 }
 
 const App: React.FC<MyProps> = props => {
-  const isDarkMode = useColorScheme() === 'dark';
-
-  const backgroundStyle = {
-    backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
-  };
-
   const {theme, setTheme} = useStore();
+  const {navigation} = props;
+  const [datas, setDatas] = useState<Game[]>([]);
 
-  return (
-    <SafeAreaView style={backgroundStyle}>
-      <StatusBar
-        barStyle={isDarkMode ? 'light-content' : 'dark-content'}
-        backgroundColor={backgroundStyle.backgroundColor}
-      />
-      <ScrollView
-        contentInsetAdjustmentBehavior="automatic"
-        style={backgroundStyle}>
-        <View
-          style={{
-            backgroundColor: isDarkMode ? Colors.black : Colors.white,
-          }}></View>
-        <TouchableOpacity
-          onPress={() => {
-            // setTheme(
-            //   '#' + Math.random().toString().replace('0.', '').substring(0, 6),
-            // );
-            props.navigation.navigate('BaohuangWeifang');
-          }}>
+  useEffect(() => {
+    setDatas([
+      {
+        src: require('@src/assets/games/wfbh.jpg'),
+        title: '潍坊保皇',
+        message: '4副牌潍坊保皇（炸弹场、进贡场）',
+        page: 'BaohuangWeifang',
+      },
+    ]);
+    return function () {};
+  }, []);
+
+  const renderItem = (it: Game, i: number) => {
+    return (
+      <TouchableOpacity
+        activeOpacity={0.88}
+        onPress={() => {
+          navigation.navigate(it.page);
+        }}>
+        <View style={{flexDirection: 'row', alignItems: 'center'}}>
           <Image
-            source={require('@src/assets/menu/tv.png')}
-            style={[
-              {height: 32, width: 32},
-              {
-                tintColor: theme,
-              },
-            ]}
+            source={it.src}
+            style={{height: 50, width: 50, borderRadius: 12}}
           />
-        </TouchableOpacity>
-      </ScrollView>
-    </SafeAreaView>
+          <View style={{width: 12}} />
+          <View
+            style={{
+              flex: 1,
+              height: 48,
+              justifyContent: 'space-around',
+            }}>
+            <Text style={{color: '#333', fontSize: 14}}>{it.title}</Text>
+            <Text style={{color: '#666', fontSize: 12}}>{it.message}</Text>
+          </View>
+        </View>
+      </TouchableOpacity>
+    );
+  };
+  
+  return (
+    <View style={{flex: 1}}>
+      <View style={{flex: 1, backgroundColor: '#f0f0f0'}}>
+        <ScrollView>
+          <View style={{height: 6}} />
+          <View style={styles.viewGrouper}>
+            <Text style={{fontSize: 16, color: '#333'}}>游戏列表</Text>
+            <View style={{height: 6}} />
+            {datas.map((it, i) => renderItem(it, i))}
+          </View>
+        </ScrollView>
+      </View>
+      <View
+        style={{
+          height: useSafeAreaInsets().bottom + 5,
+          backgroundColor: 'white',
+        }}
+      />
+    </View>
   );
 };
 
 const styles = StyleSheet.create({
-  sectionContainer: {
-    marginTop: 32,
-    paddingHorizontal: 24,
-  },
-  sectionTitle: {
-    fontSize: 24,
-    fontWeight: '600',
-  },
-  sectionDescription: {
-    marginTop: 8,
-    fontSize: 18,
-    fontWeight: '400',
-  },
-  highlight: {
-    fontWeight: '700',
+  viewGrouper: {
+    padding: 12,
+    marginVertical: 6,
+    marginHorizontal: 12,
+    backgroundColor: 'white',
+    borderRadius: 12,
   },
 });
 
