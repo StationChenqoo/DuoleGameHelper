@@ -7,6 +7,7 @@ import {AppRegistry, View} from 'react-native';
 import App from './App';
 import {name as appName} from './app.json';
 import {useStore} from './useStore';
+import Stacks from './PageStacks';
 
 const StoreContext = createContext();
 const Application = () => {
@@ -17,7 +18,7 @@ const Application = () => {
   return (
     <StoreContext.Provider value={useStore}>
       <View style={{flex: 1}}>
-        <App />
+        <Stacks />
       </View>
     </StoreContext.Provider>
   );

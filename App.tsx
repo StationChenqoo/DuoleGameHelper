@@ -19,8 +19,11 @@ import {
 
 import {Colors} from 'react-native/Libraries/NewAppScreen';
 import {useStore} from './useStore';
+import {RootStacksProp} from './PageStacks';
 
-interface MyProps {}
+interface MyProps {
+  navigation?: RootStacksProp;
+}
 
 const App: React.FC<MyProps> = props => {
   const isDarkMode = useColorScheme() === 'dark';
@@ -46,9 +49,10 @@ const App: React.FC<MyProps> = props => {
           }}></View>
         <TouchableOpacity
           onPress={() => {
-            setTheme(
-              '#' + Math.random().toString().replace('0.', '').substring(0, 6),
-            );
+            // setTheme(
+            //   '#' + Math.random().toString().replace('0.', '').substring(0, 6),
+            // );
+            props.navigation.navigate('BaohuangWeifang');
           }}>
           <Image
             source={require('@src/assets/menu/tv.png')}
