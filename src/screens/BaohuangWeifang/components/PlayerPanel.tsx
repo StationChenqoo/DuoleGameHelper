@@ -2,6 +2,7 @@ import {useStore} from '@root/useStore';
 import {Player} from '@src/constants/MyTypes';
 import {useEffect, useState} from 'react';
 import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
+import TwinkleDots from './TwinkleDots';
 
 interface MyProps {
   player: Player;
@@ -96,30 +97,38 @@ const PlayerPanel: React.FC<MyProps> = props => {
         }张`}</Text>
       </View>
       <View style={{height: 5}} />
-      <View style={{alignItems: 'center', flexDirection: 'row'}}>
-        {group('进贡', player.handleCards[0], 0, 'green')}
-        <View style={{width: 12}} />
-        {group('吃贡', player.handleCards[1], 1, '#ff5252')}
+      <View style={{flexDirection: 'row', alignItems: 'center'}}>
+        <TwinkleDots active={player.id} />
+        <View style={{width: 8}} />
+        <View style={{flex: 1}}>
+          <View style={{alignItems: 'center', flexDirection: 'row'}}>
+            {group('进贡', player.handleCards[0], 0, 'green')}
+            <View style={{width: 12}} />
+            {group('吃贡', player.handleCards[1], 1, '#ff5252')}
+          </View>
+          <View style={{height: 8}} />
+          <TouchableOpacity
+            style={[
+              styles.viewTabWrapper,
+              {
+                borderColor:
+                  player.id == activeParent && activeChild == 2
+                    ? theme
+                    : '#eee',
+              },
+            ]}
+            onPress={() => {
+              onPress(player.id, 2);
+            }}>
+            <Text
+              style={{color: '#666', fontSize: 14}}
+              numberOfLines={1}
+              ellipsizeMode={'middle'}>
+              {'出牌'}: {player.handleCards[2]}
+            </Text>
+          </TouchableOpacity>
+        </View>
       </View>
-      <View style={{height: 8}} />
-      <TouchableOpacity
-        style={[
-          styles.viewTabWrapper,
-          {
-            borderColor:
-              player.id == activeParent && activeChild == 2 ? theme : '#eee',
-          },
-        ]}
-        onPress={() => {
-          onPress(player.id, 2);
-        }}>
-        <Text
-          style={{color: '#666', fontSize: 14}}
-          numberOfLines={1}
-          ellipsizeMode={'middle'}>
-          {'出牌'}: {player.handleCards[2]}
-        </Text>
-      </TouchableOpacity>
     </View>
   );
 };

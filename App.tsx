@@ -1,30 +1,17 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- *
- * @format
- */
-
 import React, {useEffect, useState} from 'react';
 import {
   Image,
-  ImageRequireSource,
-  ImageURISource,
-  SafeAreaView,
   ScrollView,
-  StatusBar,
   StyleSheet,
   Text,
   TouchableOpacity,
-  useColorScheme,
   View,
 } from 'react-native';
 
-import {Colors} from 'react-native/Libraries/NewAppScreen';
-import {useStore} from './useStore';
-import {RootStacksProp} from './PageStacks';
-import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import {Game} from '@src/constants/MyTypes';
+import {useSafeAreaInsets} from 'react-native-safe-area-context';
+import {RootStacksProp} from './PageStacks';
+import {useStore} from './useStore';
 
 interface MyProps {
   navigation?: RootStacksProp;
@@ -66,14 +53,16 @@ const App: React.FC<MyProps> = props => {
               height: 48,
               justifyContent: 'space-around',
             }}>
-            <Text style={{color: '#333', fontSize: 14}}>{it.title}</Text>
-            <Text style={{color: '#666', fontSize: 12}}>{it.message}</Text>
+            <Text style={{color: '#333', fontSize: 16}}>{it.title}</Text>
+            <Text style={{color: '#666', fontSize: 14}} numberOfLines={1}>
+              {it.message}
+            </Text>
           </View>
         </View>
       </TouchableOpacity>
     );
   };
-  
+
   return (
     <View style={{flex: 1}}>
       <View style={{flex: 1, backgroundColor: '#f0f0f0'}}>
