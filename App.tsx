@@ -12,11 +12,13 @@ import {
   ScrollView,
   StatusBar,
   StyleSheet,
+  TouchableOpacity,
   useColorScheme,
   View,
 } from 'react-native';
 
-import {Colors, Header} from 'react-native/Libraries/NewAppScreen';
+import {Colors} from 'react-native/Libraries/NewAppScreen';
+import {useStore} from './useStore';
 
 interface MyProps {}
 
@@ -27,6 +29,8 @@ const App: React.FC<MyProps> = props => {
     backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
   };
 
+  const {theme, setTheme} = useStore();
+
   return (
     <SafeAreaView style={backgroundStyle}>
       <StatusBar
@@ -36,15 +40,26 @@ const App: React.FC<MyProps> = props => {
       <ScrollView
         contentInsetAdjustmentBehavior="automatic"
         style={backgroundStyle}>
-        <Header />
         <View
           style={{
             backgroundColor: isDarkMode ? Colors.black : Colors.white,
           }}></View>
-        <Image
-          source={require('@src/assets/menu/tv.png')}
-          style={{height: 32, width: 32}}
-        />
+        <TouchableOpacity
+          onPress={() => {
+            setTheme(
+              '#' + Math.random().toString().replace('0.', '').substring(0, 6),
+            );
+          }}>
+          <Image
+            source={require('@src/assets/menu/tv.png')}
+            style={[
+              {height: 32, width: 32},
+              {
+                tintColor: theme,
+              },
+            ]}
+          />
+        </TouchableOpacity>
       </ScrollView>
     </SafeAreaView>
   );
