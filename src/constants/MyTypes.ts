@@ -14,3 +14,9 @@ export interface Game {
   message: string;
   page: keyof RootStacksParams;
 }
+
+export const CardInputerKeyevent = {
+  DELETE: 'DELETE',
+  RESET: 'RESET',
+  POP: 'POP',
+};

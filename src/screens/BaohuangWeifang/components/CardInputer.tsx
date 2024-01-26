@@ -1,14 +1,10 @@
-import {
-  Dimensions,
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-  View,
-} from 'react-native';
+import {CardInputerKeyevent} from '@src/constants/MyTypes';
+import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 
 interface MyProps {
   onCardPress: (value: string) => void;
 }
+
 const CardInputer: React.FC<MyProps> = props => {
   const {onCardPress} = props;
   const map = '34567890JQKA2'
@@ -19,19 +15,13 @@ const CardInputer: React.FC<MyProps> = props => {
       {name: '小王', value: 'X', color: 'orange'},
       {name: '落贡', value: 'L', color: 'green'},
       {name: '让位', value: 'R', color: 'blue'},
-      {name: '删除', value: 'Delete', color: '#666'},
-      {name: '重置', value: 'Reset', color: '#ff5252'},
-      {name: '返回', value: 'Return', color: '#ff5252'},
+      {name: '删除', value: CardInputerKeyevent.DELETE, color: '#666'},
+      {name: '重置', value: CardInputerKeyevent.RESET, color: '#ff5252'},
+      {name: '返回', value: CardInputerKeyevent.POP, color: '#ff5252'},
     ]);
   return (
     <View style={{}}>
-      <View
-        style={{
-          flexDirection: 'row',
-          alignItems: 'center',
-          flexWrap: 'wrap',
-          justifyContent: 'space-between',
-        }}>
+      <View style={styles.views}>
         {map.map((it, i) => (
           <TouchableOpacity
             key={i}
@@ -64,6 +54,12 @@ const styles = StyleSheet.create({
     padding: 4,
     justifyContent: 'center',
     alignItems: 'center',
+  },
+  views: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    flexWrap: 'wrap',
+    justifyContent: 'space-between',
   },
 });
 

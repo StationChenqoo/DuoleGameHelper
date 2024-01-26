@@ -1,7 +1,7 @@
 import {RouteProp} from '@react-navigation/native';
 import {RootStacksParams, RootStacksProp} from '@root/PageStacks';
 
-import {Player} from '@src/constants/MyTypes';
+import {CardInputerKeyevent, Player} from '@src/constants/MyTypes';
 import React, {useState} from 'react';
 import {Alert, StyleSheet, View} from 'react-native';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
@@ -15,7 +15,7 @@ interface MyProps {
 const BaohuangWeifang: React.FC<MyProps> = props => {
   /** 重置数据 */
   const buildDefaultPlayers = () => {
-    const names = ['上联', '上家', '下家', '下联'];
+    const names = ['上联', '下联', '上家', '下家'];
     return Array.from(names, (_, i) => ({
       id: i,
       name: _,
@@ -27,7 +27,7 @@ const BaohuangWeifang: React.FC<MyProps> = props => {
   const [players, setPlayers] = useState<Player[]>([...buildDefaultPlayers()]);
   const [activeParent, setActiveParent] = useState(-1);
   const [activeChild, setActiveChild] = useState(-1);
-  
+
   /**
    * 激活当前玩家的行为
    * @param parent
@@ -43,26 +43,23 @@ const BaohuangWeifang: React.FC<MyProps> = props => {
    * @param value
    */
   const onCardPress = (value: string) => {
-    if (activeChild == -1 || activeParent == -1) {
-      // 没选中任何玩家
+    if (value == CardInputerKeyevent.RESET) {
+      onReset();
+    } else if (value == CardInputerKeyevent.POP) {
+      navigation.goBack();
+    } else if (activeChild == -1 || activeParent == -1) {
     } else {
-      if (value == 'Reset') {
-        onReset();
-      } else if (value == 'Return') {
-        navigation.goBack();
+      let _players = [...players];
+      let currentPlayer: Player = {...players[activeParent]};
+      let s = currentPlayer.handleCards[activeChild];
+      if (value == CardInputerKeyevent.DELETE) {
+        s = s.slice(0, -1);
       } else {
-        let _players = [...players];
-        let currentPlayer: Player = {...players[activeParent]};
-        let s = currentPlayer.handleCards[activeChild];
-        if (value == 'Delete') {
-          s = s.slice(0, -1);
-        } else {
-          s = s + value;
-        }
-        currentPlayer.handleCards[activeChild] = s;
-        _players[activeParent] = currentPlayer;
-        setPlayers(_players);
+        s = s + value;
       }
+      currentPlayer.handleCards[activeChild] = s;
+      _players[activeParent] = currentPlayer;
+      setPlayers(_players);
     }
   };
 
