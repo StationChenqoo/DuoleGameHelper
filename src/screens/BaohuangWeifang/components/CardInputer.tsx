@@ -20,15 +20,17 @@ const CardInputer: React.FC<MyProps> = props => {
       {name: '落贡', value: 'L', color: 'green'},
       {name: '让位', value: 'R', color: '#ff5252'},
       {name: '删除', value: 'Delete', color: '#666'},
+      {name: '重置', value: 'Reset', color: '#999'},
     ]);
   return (
-    <View
-      style={{
-        marginHorizontal: 12,
-        borderRadius: 10,
-      }}>
+    <View style={{}}>
       <View
-        style={{flexDirection: 'row', alignItems: 'center', flexWrap: 'wrap'}}>
+        style={{
+          flexDirection: 'row',
+          alignItems: 'center',
+          flexWrap: 'wrap',
+          justifyContent: 'space-between',
+        }}>
         {map.map((it, i) => (
           <TouchableOpacity
             key={i}
@@ -57,7 +59,7 @@ const styles = StyleSheet.create({
     height: 32,
   },
   viewButtonWrapper: {
-    width: (Dimensions.get('screen').width - 24) / 6,
+    width: 64,
     padding: 4,
     justifyContent: 'center',
     alignItems: 'center',

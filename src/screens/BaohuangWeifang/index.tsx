@@ -5,6 +5,7 @@ import React, {useEffect, useState} from 'react';
 import {
   Alert,
   RefreshControl,
+  SafeAreaView,
   ScrollView,
   StyleSheet,
   View,
@@ -19,12 +20,6 @@ interface MyProps {
 }
 
 const BaohuangWeifang: React.FC<MyProps> = props => {
-  const {route, navigation} = props;
-  const [players, setPlayers] = useState<Player[]>([]);
-  const [activeParent, setActiveParent] = useState(-1);
-  const [activeChild, setActiveChild] = useState(-1);
-  const [refreshing, setRefreshing] = useState(false);
-
   /** 重置数据 */
   const buildDefaultPlayers = () => {
     const names = ['上联', '上家', '下家', '下联'];
@@ -35,10 +30,10 @@ const BaohuangWeifang: React.FC<MyProps> = props => {
     }));
   };
 
-  useEffect(() => {
-    setPlayers([...buildDefaultPlayers()]);
-    return function () {};
-  }, []);
+  const {route, navigation} = props;
+  const [players, setPlayers] = useState<Player[]>([...buildDefaultPlayers()]);
+  const [activeParent, setActiveParent] = useState(-1);
+  const [activeChild, setActiveChild] = useState(-1);
 
   /**
    * 激活当前玩家的行为
@@ -58,22 +53,25 @@ const BaohuangWeifang: React.FC<MyProps> = props => {
     if (activeChild == -1 || activeParent == -1) {
       // 没选中任何玩家
     } else {
-      let _players = [...players];
-      let currentPlayer: Player = {...players[activeParent]};
-      let s = currentPlayer.handleCards[activeChild];
-      if (value == 'Delete') {
-        s = s.slice(0, -1);
+      if (value == 'Reset') {
+        onReset();
       } else {
-        s = s + value;
+        let _players = [...players];
+        let currentPlayer: Player = {...players[activeParent]};
+        let s = currentPlayer.handleCards[activeChild];
+        if (value == 'Delete') {
+          s = s.slice(0, -1);
+        } else {
+          s = s + value;
+        }
+        currentPlayer.handleCards[activeChild] = s;
+        _players[activeParent] = currentPlayer;
+        setPlayers(_players);
       }
-      currentPlayer.handleCards[activeChild] = s;
-      _players[activeParent] = currentPlayer;
-      setPlayers(_players);
     }
   };
 
-  const onRefresh = () => {
-    setRefreshing(true);
+  const onReset = () => {
     Alert.alert(
       '确认重置所有记录？',
       '重置完了无法恢复，豆子输光光了可不包赔哦 =.=',
@@ -84,14 +82,11 @@ const BaohuangWeifang: React.FC<MyProps> = props => {
             setPlayers([...buildDefaultPlayers()]);
             setActiveParent(-1);
             setActiveChild(-1);
-            setRefreshing(false);
           },
         },
         {
           text: '取消',
-          onPress: () => {
-            setRefreshing(false);
-          },
+          onPress: () => {},
         },
       ],
     );
@@ -99,26 +94,62 @@ const BaohuangWeifang: React.FC<MyProps> = props => {
 
   return (
     <View style={{flex: 1, backgroundColor: '#f8f8f8'}}>
-      <ScrollView
-        showsVerticalScrollIndicator={false}
-        refreshControl={
-          <RefreshControl onRefresh={onRefresh} refreshing={refreshing} />
-        }>
-        {Array.from(players, (it, i) => (
-          <View key={i} style={{marginHorizontal: 12, marginVertical: 5}}>
+      <View
+        style={{
+          flex: 1,
+          justifyContent: 'space-around',
+          marginLeft: useSafeAreaInsets().left,
+          marginRight: useSafeAreaInsets().right,
+        }}>
+        <View
+          style={{
+            flexDirection: 'row',
+            alignItems: 'center',
+          }}>
+          <View style={{flex: 1}}>
             <PlayerPanel
-              player={it}
+              player={players[0]}
               onPress={onPlayerPanelPress}
               activeParent={activeParent}
               activeChild={activeChild}
             />
           </View>
-        ))}
+          <View style={{width: 12}} />
+          <View style={{flex: 1}}>
+            <PlayerPanel
+              player={players[1]}
+              onPress={onPlayerPanelPress}
+              activeParent={activeParent}
+              activeChild={activeChild}
+            />
+          </View>
+        </View>
+        <View
+          style={{
+            flexDirection: 'row',
+            alignItems: 'center',
+          }}>
+          <View style={{flex: 1}}>
+            <PlayerPanel
+              player={players[2]}
+              onPress={onPlayerPanelPress}
+              activeParent={activeParent}
+              activeChild={activeChild}
+            />
+          </View>
+          <View style={{width: 12}} />
+          <View style={{flex: 1}}>
+            <PlayerPanel
+              player={players[3]}
+              onPress={onPlayerPanelPress}
+              activeParent={activeParent}
+              activeChild={activeChild}
+            />
+          </View>
+        </View>
         <CardInputer onCardPress={onCardPress} />
-      </ScrollView>
-      <View
-        style={{height: useSafeAreaInsets().bottom, backgroundColor: 'white'}}
-      />
+        <View style={{height: 5}} />
+      </View>
     </View>
   );
 };

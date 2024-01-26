@@ -37,6 +37,7 @@ const App: React.FC<MyProps> = props => {
   const renderItem = (it: Game, i: number) => {
     return (
       <TouchableOpacity
+        key={i}
         activeOpacity={0.88}
         onPress={() => {
           navigation.navigate(it.page);

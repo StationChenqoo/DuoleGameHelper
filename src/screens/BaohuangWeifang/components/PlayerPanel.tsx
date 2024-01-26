@@ -98,8 +98,6 @@ const PlayerPanel: React.FC<MyProps> = props => {
       </View>
       <View style={{height: 5}} />
       <View style={{flexDirection: 'row', alignItems: 'center'}}>
-        <TwinkleDots active={player.id} />
-        <View style={{width: 8}} />
         <View style={{flex: 1}}>
           <View style={{alignItems: 'center', flexDirection: 'row'}}>
             {group('进贡', player.handleCards[0], 0, 'green')}
