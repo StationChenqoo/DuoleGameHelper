@@ -1,8 +1,15 @@
 import {useStore} from '@root/useStore';
 import {Player} from '@src/constants/MyTypes';
 import {useEffect, useState} from 'react';
-import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
-import TwinkleDots from './TwinkleDots';
+import {
+  LayoutRectangle,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from 'react-native';
+import ProgressBar from './ProgressBar';
+import tinycolor from 'tinycolor2';
 
 interface MyProps {
   player: Player;
@@ -22,6 +29,12 @@ const PlayerPanel: React.FC<MyProps> = props => {
   const [unusedCardsGrouper, setUnusedCardsGrouper] = useState('');
   const [count, setCount] = useState(0);
   const {theme} = useStore();
+  const [progressBarLayout, setProgressBarLayout] = useState<LayoutRectangle>({
+    height: 0,
+    width: 0,
+    x: 0,
+    y: 0,
+  });
 
   useEffect(() => {
     setUnusedCardsGrouper(
@@ -117,12 +130,27 @@ const PlayerPanel: React.FC<MyProps> = props => {
             ]}
             onPress={() => {
               onPress(player.id, 2);
+            }}
+            onLayout={e => {
+              setProgressBarLayout(e.nativeEvent.layout);
             }}>
+            <View style={{position: 'absolute', paddingHorizontal: 4}}>
+              <ProgressBar
+                progress={(40 - count) / 40}
+                range={progressBarLayout}
+              />
+            </View>
             <Text
-              style={{color: '#666', fontSize: 14}}
+              style={{
+                // color: tinycolor(theme)
+                //   .setAlpha((40 - count) / 41)
+                //   .toString(),
+                color: '#666',
+                fontSize: 14,
+              }}
               numberOfLines={1}
               ellipsizeMode={'head'}>
-              {'出牌'}: {player.handleCards[2]}
+              {player.handleCards[2] ? player.handleCards[2] : '记录出牌 ~'}
             </Text>
           </TouchableOpacity>
         </View>
@@ -144,6 +172,7 @@ const styles = StyleSheet.create({
     paddingVertical: 5,
     paddingHorizontal: 6,
     flexDirection: 'row',
+    position: 'relative',
   },
 });
 export default PlayerPanel;
