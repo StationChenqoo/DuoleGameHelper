@@ -3,14 +3,13 @@ import {
   useNavigationContainerRef,
 } from '@react-navigation/native';
 import {
-  createNativeStackNavigator,
   NativeStackNavigationProp,
+  createNativeStackNavigator,
 } from '@react-navigation/native-stack';
 
+import BaohuangWeifang from '@src/screens/BaohuangWeifang';
 import * as React from 'react';
 import App from './App';
-import BaohuangWeifang from '@src/screens/BaohuangWeifang';
-import {useFlipper} from '@react-navigation/devtools';
 
 export type RootStacksParams = {
   App: undefined;
@@ -23,10 +22,11 @@ export type RootStacksProp = NativeStackNavigationProp<RootStacksParams>;
 
 export default function Stacks() {
   const navigator = useNavigationContainerRef();
-  useFlipper(navigator);
+  // useFlipper(navigator);
   return (
     <NavigationContainer ref={navigator}>
-      <RootStack.Navigator screenOptions={{animation: 'slide_from_right'}}>
+      <RootStack.Navigator
+        screenOptions={{animation: 'slide_from_right', headerShown: false}}>
         <RootStack.Screen
           name="App"
           component={App}

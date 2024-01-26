@@ -19,7 +19,7 @@ const Application = () => {
   return (
     <StoreContext.Provider value={useStore}>
       <View style={{flex: 1}}>
-        <StatusBar translucent={true}/>
+        <StatusBar translucent={false}/>
         <Stacks />
       </View>
     </StoreContext.Provider>

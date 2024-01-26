@@ -121,7 +121,7 @@ const PlayerPanel: React.FC<MyProps> = props => {
             <Text
               style={{color: '#666', fontSize: 14}}
               numberOfLines={1}
-              ellipsizeMode={'middle'}>
+              ellipsizeMode={'head'}>
               {'出牌'}: {player.handleCards[2]}
             </Text>
           </TouchableOpacity>

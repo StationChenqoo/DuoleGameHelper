@@ -1,18 +1,11 @@
 import {RouteProp} from '@react-navigation/native';
 import {RootStacksParams, RootStacksProp} from '@root/PageStacks';
 
-import React, {useEffect, useState} from 'react';
-import {
-  Alert,
-  RefreshControl,
-  SafeAreaView,
-  ScrollView,
-  StyleSheet,
-  View,
-} from 'react-native';
-import {CardInputer, PlayerPanel} from './components';
-import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import {Player} from '@src/constants/MyTypes';
+import React, {useState} from 'react';
+import {Alert, StyleSheet, View} from 'react-native';
+import {useSafeAreaInsets} from 'react-native-safe-area-context';
+import {CardInputer, PlayerPanel} from './components';
 
 interface MyProps {
   navigation?: RootStacksProp;
@@ -34,7 +27,7 @@ const BaohuangWeifang: React.FC<MyProps> = props => {
   const [players, setPlayers] = useState<Player[]>([...buildDefaultPlayers()]);
   const [activeParent, setActiveParent] = useState(-1);
   const [activeChild, setActiveChild] = useState(-1);
-
+  
   /**
    * 激活当前玩家的行为
    * @param parent
@@ -55,6 +48,8 @@ const BaohuangWeifang: React.FC<MyProps> = props => {
     } else {
       if (value == 'Reset') {
         onReset();
+      } else if (value == 'Return') {
+        navigation.goBack();
       } else {
         let _players = [...players];
         let currentPlayer: Player = {...players[activeParent]};
@@ -148,7 +143,6 @@ const BaohuangWeifang: React.FC<MyProps> = props => {
           </View>
         </View>
         <CardInputer onCardPress={onCardPress} />
-        <View style={{height: 5}} />
       </View>
     </View>
   );
