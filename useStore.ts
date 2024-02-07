@@ -7,10 +7,8 @@ interface States {
   increase: (by: number) => void;
   theme: string;
   setTheme: (theme: string) => void;
-  lastCachedBaohuangWeifangPlayers: any[];
-  setLastCachedBaohuangWeifangPlayers: (
-    lastCachedBaohuangWeifangPlayers: any[],
-  ) => void;
+  lastCachedPlayers: any[];
+  setLastCachedPlayers: (lastCachedPlayers: any[]) => void;
 }
 
 const useStore = create<States>()(
@@ -21,9 +19,8 @@ const useStore = create<States>()(
         increase: by => set(state => ({bears: state.bears + by})),
         theme: '#987123',
         setTheme: theme => set({theme}),
-        lastCachedBaohuangWeifangPlayers: [],
-        setLastCachedBaohuangWeifangPlayers: lastCachedBaohuangWeifangPlayers =>
-          set({lastCachedBaohuangWeifangPlayers}),
+        lastCachedPlayers: [],
+        setLastCachedPlayers: lastCachedPlayers => set({lastCachedPlayers}),
       }),
       {
         storage: createJSONStorage(() => AsyncStorage),

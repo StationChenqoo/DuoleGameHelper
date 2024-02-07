@@ -1,13 +1,12 @@
 import {RouteProp} from '@react-navigation/native';
 import {RootStacksParams, RootStacksProp} from '@root/PageStacks';
 
+import {useStore} from '@root/useStore';
+import {CardInputer, PlayerPanel} from '@src/components';
 import {CardInputerKeyevent, Player} from '@src/constants/MyTypes';
-import React, {useEffect, useState} from 'react';
+import React, {useState} from 'react';
 import {Alert, StyleSheet, View} from 'react-native';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
-import {CardInputer} from './components';
-import {useStore} from '@root/useStore';
-import {PlayerPanel} from '@src/components';
 
 interface MyProps {
   navigation?: RootStacksProp;
@@ -37,10 +36,7 @@ const BaohuangWeifang: React.FC<MyProps> = props => {
   const [players, setPlayers] = useState<Player[]>([...buildDefaultPlayers()]);
   const [activeParent, setActiveParent] = useState(-1);
   const [activeChild, setActiveChild] = useState(-1);
-  const {
-    lastCachedBaohuangWeifangPlayers,
-    setLastCachedBaohuangWeifangPlayers,
-  } = useStore();
+  const {} = useStore();
 
   /**
    * 激活当前玩家的行为
@@ -87,24 +83,6 @@ const BaohuangWeifang: React.FC<MyProps> = props => {
       setPlayers(_players);
     }
   };
-
-  useEffect(() => {
-    if (lastCachedBaohuangWeifangPlayers.length > 0) {
-      Alert.alert('是否恢复记录？', '检测到最近的退出，有记录可以恢复 ...', [
-        {
-          text: '确认',
-          onPress: () => {
-            setPlayers(lastCachedBaohuangWeifangPlayers);
-          },
-        },
-        {text: '取消', onPress: () => {}},
-      ]);
-    }
-
-    return function () {
-      setLastCachedBaohuangWeifangPlayers(players);
-    };
-  }, []);
 
   const onReset = () => {
     Alert.alert(
@@ -186,7 +164,24 @@ const BaohuangWeifang: React.FC<MyProps> = props => {
             />
           </View>
         </View>
-        <CardInputer onCardPress={onCardPress} />
+        <CardInputer
+          onCardPress={onCardPress}
+          datas={'4567890JQKA23'
+            .split('')
+            .map(it => ({name: it, value: it, color: '#333'}))
+            .concat([
+              {name: '大王', value: 'D', color: 'orange'},
+              {name: '小王', value: 'X', color: 'orange'},
+              {name: '让位', value: 'R', color: 'blue'},
+              {name: '删除', value: CardInputerKeyevent.DELETE, color: '#666'},
+              {
+                name: '重置',
+                value: CardInputerKeyevent.RESET,
+                color: '#ff5252',
+              },
+              {name: '返回', value: CardInputerKeyevent.POP, color: '#ff5252'},
+            ])}
+        />
       </View>
     </View>
   );
