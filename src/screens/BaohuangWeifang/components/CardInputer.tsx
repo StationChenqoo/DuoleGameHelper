@@ -7,7 +7,7 @@ interface MyProps {
 
 const CardInputer: React.FC<MyProps> = props => {
   const {onCardPress} = props;
-  const map = '34567890JQKA2'
+  const map = '4567890JQKA23'
     .split('')
     .map(it => ({name: it, value: it, color: '#333'}))
     .concat([

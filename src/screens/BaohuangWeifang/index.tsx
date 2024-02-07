@@ -2,10 +2,11 @@ import {RouteProp} from '@react-navigation/native';
 import {RootStacksParams, RootStacksProp} from '@root/PageStacks';
 
 import {CardInputerKeyevent, Player} from '@src/constants/MyTypes';
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {Alert, StyleSheet, View} from 'react-native';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import {CardInputer, PlayerPanel} from './components';
+import {useStore} from '@root/useStore';
 
 interface MyProps {
   navigation?: RootStacksProp;
@@ -27,6 +28,10 @@ const BaohuangWeifang: React.FC<MyProps> = props => {
   const [players, setPlayers] = useState<Player[]>([...buildDefaultPlayers()]);
   const [activeParent, setActiveParent] = useState(-1);
   const [activeChild, setActiveChild] = useState(-1);
+  const {
+    lastCachedBaohuangWeifangPlayers,
+    setLastCachedBaohuangWeifangPlayers,
+  } = useStore();
 
   /**
    * 激活当前玩家的行为
@@ -46,7 +51,18 @@ const BaohuangWeifang: React.FC<MyProps> = props => {
     if (value == CardInputerKeyevent.RESET) {
       onReset();
     } else if (value == CardInputerKeyevent.POP) {
-      navigation.goBack();
+      Alert.alert('确认退出？', '再问一遍你确认退出？', [
+        {
+          text: '确认',
+          onPress: () => {
+            navigation.goBack();
+          },
+        },
+        {
+          text: '取消',
+          onPress: () => {},
+        },
+      ]);
     } else if (activeChild == -1 || activeParent == -1) {
     } else {
       let _players = [...players];
@@ -62,6 +78,24 @@ const BaohuangWeifang: React.FC<MyProps> = props => {
       setPlayers(_players);
     }
   };
+
+  useEffect(() => {
+    if (lastCachedBaohuangWeifangPlayers.length > 0) {
+      Alert.alert('是否恢复记录？', '检测到最近的退出，有记录可以恢复 ...', [
+        {
+          text: '确认',
+          onPress: () => {
+            setPlayers(lastCachedBaohuangWeifangPlayers);
+          },
+        },
+        {text: '取消', onPress: () => {}},
+      ]);
+    }
+
+    return function () {
+      setLastCachedBaohuangWeifangPlayers(players);
+    };
+  }, []);
 
   const onReset = () => {
     Alert.alert(

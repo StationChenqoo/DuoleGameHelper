@@ -15,7 +15,7 @@ const ProgressBar: React.FC<MyProps> = props => {
       <View
         style={{
           height: 24,
-          width: (range.width - 4 * 2) * progress,
+          width: (range.width - 4 * 2) * Math.max(Math.min(1, progress), 0),
           backgroundColor: tinycolor(theme)
             .setAlpha(1 - progress)
             .toString(),
