@@ -30,6 +30,12 @@ const App: React.FC<MyProps> = props => {
         message: '4副牌潍坊保皇（炸弹场、进贡场）',
         page: 'BaohuangWeifang',
       },
+      {
+        src: require('@src/assets/games/wfbh.jpg'),
+        title: '疯狂保皇',
+        message: '4副牌疯狂保皇',
+        page: 'BaohuangFengkuang',
+      },
     ]);
     return function () {};
   }, []);

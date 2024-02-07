@@ -9,7 +9,6 @@ import {
   View,
 } from 'react-native';
 import ProgressBar from './ProgressBar';
-import tinycolor from 'tinycolor2';
 
 interface MyProps {
   player: Player;
@@ -22,10 +21,12 @@ interface MyProps {
   onPress: (i: number, j: number) => void;
   activeParent: number;
   activeChild: number;
+  abcd: string;
+  handleCardsCount: number; // 手牌张数
 }
 
 const PlayerPanel: React.FC<MyProps> = props => {
-  const {player, onPress, activeParent, activeChild} = props;
+  const {player, onPress, activeParent, activeChild, abcd, handleCardsCount} = props;
   const [unusedCardsGrouper, setUnusedCardsGrouper] = useState('');
   const [count, setCount] = useState(0);
   const {theme} = useStore();
@@ -53,7 +54,6 @@ const PlayerPanel: React.FC<MyProps> = props => {
    * @param cards
    */
   const calcUnusedCardsGrouperCalculator = (cards: string) => {
-    let abcd = '34567890JQKA2';
     let result = '';
     for (let i = 0; i < abcd.length; i++) {
       if (cards.toUpperCase().includes(abcd[i])) {
@@ -106,7 +106,7 @@ const PlayerPanel: React.FC<MyProps> = props => {
       <View style={styles.viewRows}>
         <Text style={{fontSize: 14, color: '#333'}}>{player.name}</Text>
         <Text style={{fontSize: 14, color: theme}}>{`${unusedCardsGrouper} → ${
-          40 - count
+          handleCardsCount - count
         }张`}</Text>
       </View>
       <View style={{height: 5}} />
@@ -136,7 +136,7 @@ const PlayerPanel: React.FC<MyProps> = props => {
             }}>
             <View style={{position: 'absolute', paddingHorizontal: 4}}>
               <ProgressBar
-                progress={(40 - count) / 40}
+                progress={(handleCardsCount - count) / handleCardsCount}
                 range={progressBarLayout}
               />
             </View>

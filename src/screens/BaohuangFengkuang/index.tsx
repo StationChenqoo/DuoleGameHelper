@@ -14,15 +14,15 @@ interface MyProps {
   route?: RouteProp<RootStacksParams, 'BaohuangWeifang'>;
 }
 
-const abcd = '34567890JQKA2';
-const handleCardsCount = 40;
+const abcd = '67890JQKA2';
+const handleCardsCount = 30;
 
 const cardPanelProps = {
   abcd,
   handleCardsCount,
 };
 
-const BaohuangWeifang: React.FC<MyProps> = props => {
+const BaohuangFengkuang: React.FC<MyProps> = props => {
   /** 重置数据 */
   const buildDefaultPlayers = () => {
     const names = ['上联', '下联', '上家', '下家'];
@@ -204,4 +204,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default BaohuangWeifang;
+export default BaohuangFengkuang;

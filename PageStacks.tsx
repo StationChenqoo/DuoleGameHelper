@@ -9,11 +9,14 @@ import {
 
 import BaohuangWeifang from '@src/screens/BaohuangWeifang';
 import * as React from 'react';
+
 import App from './App';
+import BaohuangFengkuang from '@src/screens/BaohuangFengkuang';
 
 export type RootStacksParams = {
   App: undefined;
   BaohuangWeifang: undefined;
+  BaohuangFengkuang: undefined;
 };
 
 const RootStack = createNativeStackNavigator<RootStacksParams>();
@@ -27,15 +30,11 @@ export default function Stacks() {
     <NavigationContainer ref={navigator}>
       <RootStack.Navigator
         screenOptions={{animation: 'slide_from_right', headerShown: false}}>
+        <RootStack.Screen name="App" component={App} />
+        <RootStack.Screen name="BaohuangWeifang" component={BaohuangWeifang} />
         <RootStack.Screen
-          name="App"
-          component={App}
-          options={{headerTitle: '多乐棋牌助手'}}
-        />
-        <RootStack.Screen
-          name="BaohuangWeifang"
-          component={BaohuangWeifang}
-          options={{headerTitle: '潍坊保皇'}}
+          name="BaohuangFengkuang"
+          component={BaohuangFengkuang}
         />
       </RootStack.Navigator>
     </NavigationContainer>
