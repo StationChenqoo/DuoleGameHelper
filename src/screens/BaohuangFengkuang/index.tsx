@@ -113,11 +113,13 @@ const BaohuangFengkuang: React.FC<MyProps> = props => {
           justifyContent: 'space-around',
           marginLeft: useSafeAreaInsets().left,
           marginRight: useSafeAreaInsets().right,
+         
         }}>
         <View
           style={{
             flexDirection: 'row',
             alignItems: 'center',
+            
           }}>
           <View style={{flex: 1}}>
             <PlayerPanel

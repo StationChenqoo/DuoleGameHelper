@@ -26,7 +26,8 @@ interface MyProps {
 }
 
 const PlayerPanel: React.FC<MyProps> = props => {
-  const {player, onPress, activeParent, activeChild, abcd, handleCardsCount} = props;
+  const {player, onPress, activeParent, activeChild, abcd, handleCardsCount} =
+    props;
   const [unusedCardsGrouper, setUnusedCardsGrouper] = useState('');
   const [count, setCount] = useState(0);
   const {theme} = useStore();
@@ -79,7 +80,7 @@ const PlayerPanel: React.FC<MyProps> = props => {
         onPress={() => {
           onPress(player.id, index);
         }}
-        style={{flex: 1}}>
+        style={{}}>
         <View
           style={[
             styles.viewTabWrapper,
@@ -102,19 +103,18 @@ const PlayerPanel: React.FC<MyProps> = props => {
 
   return (
     <View style={{padding: 8, borderRadius: 10, backgroundColor: 'white'}}>
-      <View style={{}} />
       <View style={styles.viewRows}>
         <Text style={{fontSize: 14, color: '#333'}}>{player.name}</Text>
         <Text style={{fontSize: 14, color: theme}}>{`${unusedCardsGrouper} → ${
           handleCardsCount - count
         }张`}</Text>
       </View>
-      <View style={{height: 5}} />
+      <View style={{height: 8}} />
       <View style={{flexDirection: 'row', alignItems: 'center'}}>
         <View style={{flex: 1}}>
-          <View style={{alignItems: 'center', flexDirection: 'row'}}>
+          <View style={{}}>
             {group('进贡', player.handleCards[0], 0, 'green')}
-            <View style={{width: 12}} />
+            <View style={{height: 5}} />
             {group('吃贡', player.handleCards[1], 1, '#ff5252')}
           </View>
           <View style={{height: 8}} />
@@ -147,8 +147,10 @@ const PlayerPanel: React.FC<MyProps> = props => {
                 //   .toString(),
                 color: '#666',
                 fontSize: 14,
+                height: 32,
+                lineHeight: 16,
               }}
-              numberOfLines={1}
+              numberOfLines={2}
               ellipsizeMode={'head'}>
               {player.handleCards[2] ? player.handleCards[2] : '记录出牌 ~'}
             </Text>

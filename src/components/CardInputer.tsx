@@ -45,7 +45,8 @@ const styles = StyleSheet.create({
   },
   viewButtonWrapper: {
     width: 64,
-    padding: 4,
+    paddingHorizontal: 4,
+    paddingVertical: 4,
     justifyContent: 'center',
     alignItems: 'center',
   },
@@ -53,6 +54,8 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     flexWrap: 'wrap',
+    width: 64 * 3 + 16,
+    // backgroundColor: 'green',
     justifyContent: 'space-between',
   },
 });

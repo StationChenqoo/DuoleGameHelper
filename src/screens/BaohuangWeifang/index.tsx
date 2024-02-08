@@ -5,7 +5,14 @@ import {useStore} from '@root/useStore';
 import {CardInputer, PlayerPanel} from '@src/components';
 import {CardInputerKeyevent, Player} from '@src/constants/MyTypes';
 import React, {useState} from 'react';
-import {Alert, StyleSheet, View} from 'react-native';
+import {
+  Alert,
+  Dimensions,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from 'react-native';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
 
 interface MyProps {
@@ -36,8 +43,10 @@ const BaohuangWeifang: React.FC<MyProps> = props => {
   const [players, setPlayers] = useState<Player[]>([...buildDefaultPlayers()]);
   const [activeParent, setActiveParent] = useState(-1);
   const [activeChild, setActiveChild] = useState(-1);
-  const {} = useStore();
+  const {theme} = useStore();
+  const [height, setHeight] = useState(0);
 
+  const safe = useSafeAreaInsets().right;
   /**
    * 激活当前玩家的行为
    * @param parent
@@ -54,6 +63,7 @@ const BaohuangWeifang: React.FC<MyProps> = props => {
    */
   const onCardPress = (value: string) => {
     if (value == CardInputerKeyevent.RESET) {
+      Alert.alert('useSafeAreaInsets', `${safe}`);
       onReset();
     } else if (value == CardInputerKeyevent.POP) {
       Alert.alert('确认退出？', '再问一遍你确认退出？', [
@@ -109,83 +119,124 @@ const BaohuangWeifang: React.FC<MyProps> = props => {
     <View style={{flex: 1, backgroundColor: '#f8f8f8'}}>
       <View
         style={{
+          flexDirection: 'row',
           flex: 1,
-          justifyContent: 'space-around',
           marginLeft: useSafeAreaInsets().left,
           marginRight: useSafeAreaInsets().right,
+          alignItems: 'center',
+        }}
+        onLayout={event => {
+          setHeight(event.nativeEvent.layout.height);
         }}>
         <View
           style={{
-            flexDirection: 'row',
+            flex: 1,
             alignItems: 'center',
+            justifyContent: 'center',
+          }}
+          onLayout={event => {
+            setHeight(event.nativeEvent.layout.height);
           }}>
-          <View style={{flex: 1}}>
-            <PlayerPanel
-              player={players[0]}
-              onPress={onPlayerPanelPress}
-              activeParent={activeParent}
-              activeChild={activeChild}
-              {...cardPanelProps}
-            />
+          <View
+            style={{
+              flexDirection: 'row',
+              alignItems: 'center',
+            }}>
+            <View style={{flex: 1}}>
+              <PlayerPanel
+                player={players[0]}
+                onPress={onPlayerPanelPress}
+                activeParent={activeParent}
+                activeChild={activeChild}
+                {...cardPanelProps}
+              />
+            </View>
+            <View style={{width: 12}} />
+            <View style={{flex: 1}}>
+              <PlayerPanel
+                player={players[1]}
+                onPress={onPlayerPanelPress}
+                activeParent={activeParent}
+                activeChild={activeChild}
+                {...cardPanelProps}
+              />
+            </View>
           </View>
-          <View style={{width: 12}} />
-          <View style={{flex: 1}}>
-            <PlayerPanel
-              player={players[1]}
-              onPress={onPlayerPanelPress}
-              activeParent={activeParent}
-              activeChild={activeChild}
-              {...cardPanelProps}
-            />
+          <View style={{height: 12}} />
+          <View
+            style={{
+              flexDirection: 'row',
+              alignItems: 'center',
+            }}>
+            <View style={{flex: 1}}>
+              <PlayerPanel
+                player={players[2]}
+                onPress={onPlayerPanelPress}
+                activeParent={activeParent}
+                activeChild={activeChild}
+                {...cardPanelProps}
+              />
+            </View>
+            <View style={{width: 12}} />
+            <View style={{flex: 1}}>
+              <PlayerPanel
+                player={players[3]}
+                onPress={onPlayerPanelPress}
+                activeParent={activeParent}
+                activeChild={activeChild}
+                {...cardPanelProps}
+              />
+            </View>
           </View>
         </View>
-        <View
-          style={{
-            flexDirection: 'row',
-            alignItems: 'center',
-          }}>
-          <View style={{flex: 1}}>
-            <PlayerPanel
-              player={players[2]}
-              onPress={onPlayerPanelPress}
-              activeParent={activeParent}
-              activeChild={activeChild}
-              {...cardPanelProps}
-            />
-          </View>
-          <View style={{width: 12}} />
-          <View style={{flex: 1}}>
-            <PlayerPanel
-              player={players[3]}
-              onPress={onPlayerPanelPress}
-              activeParent={activeParent}
-              activeChild={activeChild}
-              {...cardPanelProps}
-            />
-          </View>
+        <View style={{width: 12}} />
+        <View style={{paddingVertical: 12}}>
+          <CardInputer
+            onCardPress={onCardPress}
+            datas={'4567890JQKA23'
+              .split('')
+              .reverse()
+              .map(it => ({name: it, value: it, color: '#333'}))
+              .concat([
+                {name: '大王', value: 'D', color: 'orange'},
+                {name: '小王', value: 'X', color: 'orange'},
+                {name: '让位', value: 'R', color: 'blue'},
+                {
+                  name: '删除',
+                  value: CardInputerKeyevent.DELETE,
+                  color: '#666',
+                },
+                {
+                  name: '重置',
+                  value: CardInputerKeyevent.RESET,
+                  color: '#ff5252',
+                },
+              ])}
+          />
+          <View style={{height: 24}} />
+          <TouchableOpacity
+            style={{
+              height: 36,
+              backgroundColor: theme,
+              marginHorizontal: 12,
+              justifyContent: 'center',
+              alignItems: 'center',
+              borderRadius: 16,
+            }}
+            onPress={onReset}>
+            <Text style={{color: 'white'}}>返回游戏列表</Text>
+          </TouchableOpacity>
         </View>
-        <CardInputer
-          onCardPress={onCardPress}
-          datas={'4567890JQKA23'
-            .split('')
-            .map(it => ({name: it, value: it, color: '#333'}))
-            .concat([
-              {name: '大王', value: 'D', color: 'orange'},
-              {name: '小王', value: 'X', color: 'orange'},
-              {name: '让位', value: 'R', color: 'blue'},
-              {name: '删除', value: CardInputerKeyevent.DELETE, color: '#666'},
-              {
-                name: '重置',
-                value: CardInputerKeyevent.RESET,
-                color: '#ff5252',
-              },
-              {name: '返回', value: CardInputerKeyevent.POP, color: '#ff5252'},
-            ])}
-        />
       </View>
     </View>
   );
 };
+
+// {
+//   name: '返回',
+//   value: CardInputerKeyevent.POP,
+//   color: '#ff5252',
+// },
 
 const styles = StyleSheet.create({
   viewItem: {
