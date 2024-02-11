@@ -1,6 +1,7 @@
 package com.duolegamehelper
 
 import android.app.Application
+import com.duolegamehelper.modules.MyPackages
 import com.facebook.react.PackageList
 import com.facebook.react.ReactApplication
 import com.facebook.react.ReactHost
@@ -19,7 +20,12 @@ class MainApplication : Application(), ReactApplication {
             override fun getPackages(): List<ReactPackage> {
                 // Packages that cannot be autolinked yet can be added manually here, for example:
                 // packages.add(new MyReactNativePackage());
-                return PackageList(this).packages
+                var packages: List<ReactPackage> =
+                    listOf<ReactPackage>(
+                        MyPackages(),
+                        *PackageList(this).packages.toTypedArray()
+                    )
+                return packages;
             }
 
             override fun getJSMainModuleName(): String = "index"

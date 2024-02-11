@@ -201,6 +201,8 @@ const BaohuangWeifang: React.FC<MyProps> = props => {
                 {name: '大王', value: 'D', color: 'orange'},
                 {name: '小王', value: 'X', color: 'orange'},
                 {name: '让位', value: 'R', color: 'blue'},
+                {name: '落贡', value: 'L', color: 'blue'},
+                {name: '闷贡', value: 'M', color: 'blue'},
                 {
                   name: '删除',
                   value: CardInputerKeyevent.DELETE,
@@ -211,10 +213,15 @@ const BaohuangWeifang: React.FC<MyProps> = props => {
                   value: CardInputerKeyevent.RESET,
                   color: '#ff5252',
                 },
+                {
+                  name: '返回',
+                  value: CardInputerKeyevent.POP,
+                  color: '#ff5252',
+                },
               ])}
           />
-          <View style={{height: 24}} />
-          <TouchableOpacity
+          {/* <View style={{height: 24}} /> */}
+          {/* <TouchableOpacity
             style={{
               height: 36,
               backgroundColor: theme,
@@ -225,7 +232,7 @@ const BaohuangWeifang: React.FC<MyProps> = props => {
             }}
             onPress={onReset}>
             <Text style={{color: 'white'}}>返回游戏列表</Text>
-          </TouchableOpacity>
+          </TouchableOpacity> */}
         </View>
       </View>
     </View>
